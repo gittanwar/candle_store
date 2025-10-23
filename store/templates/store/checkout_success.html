@@ -1,0 +1,125 @@
+
+<style>
+  .thankyou {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #eee;
+  animation: fadeInUp 0.8s ease;
+}
+
+.thankyou h2 {
+  font-size: 2.2rem;
+  color: #baa360;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.thankyou p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.thankyou h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #baa360;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.thankyou ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.thankyou ul li {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.thankyou ul li strong {
+  color: #28a745;
+  font-size: 1rem;
+}
+
+.thankyou a {
+  display: inline-block;
+  margin-top: 25px;
+  background: linear-gradient(135deg, #baa360, #d4b870);
+  color: #fff;
+  padding: 12px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(186, 163, 96, 0.4);
+}
+
+.thankyou a:hover {
+  background: linear-gradient(135deg, #a8914f, #c7a85e);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(186, 163, 96, 0.6);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive design */
+@media (max-width: 600px) {
+  .thankyou {
+    padding: 25px;
+    margin: 40px 15px;
+  }
+
+  .thankyou h2 {
+    font-size: 1.8rem;
+  }
+
+  .thankyou ul li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+</style>
+<section class="thankyou">
+  <h2>Thank you {{ name }}!</h2>
+<p>Your order has been placed successfully.</p>
+
+<h3>Order Summary:</h3>
+<ul>
+  {% for item in cart %}
+  <li>
+    {{ item.product.name }} - {{ item.quantity }} x ₹{{ item.price }} = <p><strong>Total: ₹{{ cart.get_total_price }}</strong></p>
+
+  </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}">Continue Shopping</a>
+</section>

@@ -1,0 +1,226 @@
+{% include 'store/header.html' %}
+
+<style>
+/* Product Section */
+.product-image img {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+.product-image img:hover {
+    transform: scale(1.05);
+}
+
+.product-details h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+.product-details p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+.product-details .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e63946;
+}
+.product-details form {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.product-details input[type="number"] {
+    width: 80px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.product-details button {
+    background-color: #457b9d;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.product-details button:hover {
+    background-color: #1d3557;
+}
+
+/* Related Products Slider */
+.related {
+    margin-top: 60px;
+}
+.related h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #457b9d;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+.related-slider-wrapper {
+    position: relative;
+}
+.related-products-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding-bottom: 10px;
+}
+.related-products-slider::-webkit-scrollbar {
+    height: 8px;
+}
+.related-products-slider::-webkit-scrollbar-thumb {
+    background-color: #457b9d;
+    border-radius: 10px;
+}
+.related-products-slider .product {
+    flex: 0 0 220px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.related-products-slider .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.related-products-slider img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.related-products-slider .product-info p,
+.related-products-slider .product-info h3,
+.related-products-slider .product-info .price {
+    margin: 5px 0;
+}
+.related-slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #457b9d;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.3s ease;
+}
+.related-slider-btn:hover {
+    background-color: #1d3557;
+}
+.related-slider-btn.left {
+    left: -20px;
+}
+.related-slider-btn.right {
+    right: -20px;
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+    .related-products-slider .product {
+        flex: 0 0 160px;
+    }
+    .related-slider-btn.left {
+        left: -10px;
+    }
+    .related-slider-btn.right {
+        right: -10px;
+    }
+}
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="product-image">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="product-details">
+                <h1>{{ product.name }}</h1>
+                <p class="price">₹{{ product.price }}</p>
+                <p>{{ product.description }}</p>
+                <p><strong>Stock:</strong> {{ product.stock }}</p>
+               <form method="POST" action="{% url 'add_to_cart' product.id %}">
+  {% csrf_token %}
+  <div class="quantity-wrapper" style="display: flex; align-items: center; gap: 10px;">
+    <button type="button" class="btn btn-outline-secondary" onclick="decreaseQty()">−</button>
+    <input type="number" id="quantity" name="quantity" value="1" min="1"
+           class="form-control text-center" style="width: 70px;">
+    <button type="button" class="btn btn-outline-secondary" onclick="increaseQty()">+</button>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3">
+    🛒 Add to Cart
+  </button>
+</form>
+
+<script>
+  function increaseQty() {
+    const qty = document.getElementById('quantity');
+    qty.value = parseInt(qty.value) + 1;
+  }
+
+  function decreaseQty() {
+    const qty = document.getElementById('quantity');
+    if (parseInt(qty.value) > 1) {
+      qty.value = parseInt(qty.value) - 1;
+    }
+  }
+</script>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="relatedproducts">
+    <div class="container">
+        <div class="related">
+            <h3>Related Products</h3>
+            <div class="related-slider-wrapper">
+                <button class="related-slider-btn left" onclick="slideRelated(-1)">◀</button>
+                <div class="related-products-slider" id="relatedSlider">
+                    {% for item in related_products %}
+                    <div class="product">
+                        <a href="{% url 'product_detail' item.id %}">
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        </a>
+                        <div class="product-info">
+                            <h3>{{ item.name }}</h3>
+                            <div class="price">₹{{ item.price }}</div>
+                            <div class="product-actions">
+                                <a href="{% url 'add_to_cart' item.id %}" class="btn btn-small add-to-cart-btn">Add to Cart</a>
+                                <a href="{% url 'product_detail' item.id %}" class="btn btn-small btn-outline">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="related-slider-btn right" onclick="slideRelated(1)">▶</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function slideRelated(direction) {
+    const slider = document.getElementById('relatedSlider');
+    const scrollAmount = 240; // adjust depending on card width + gap
+    slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+}
+</script>
+
+{% include 'store/footer.html' %}

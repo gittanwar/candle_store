@@ -1,0 +1,90 @@
+{% include 'store/header.html' %}
+
+
+<!-- Hero Banner -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>Illuminate Your Space</h1>
+    <p>Handcrafted Premium Candles for Every Occasion</p>
+    <a href="#products" class="btn">Shop Now</a>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="row">
+      <!-- <div class="col-md-6">
+<div class="about-image">
+<img src="/media/products/about.jpg" 
+     alt="About CandleLight" 
+     style="width:100%; border-radius: 15px;">
+  </div>
+      </div> -->
+      <div class="col-md-12">
+        <div class="about-content">
+          <h1>DreamHomes Realty</h1>
+          <h2>Find. Buy. Sell. Live Your Dream</h2>
+          <p>At DreamHomes Realty, we believe a property is more than just bricks and walls — it’s the foundation of
+            dreams, memories, and success. Whether you’re searching for your perfect home, investing in a profitable
+            property, or planning to sell your asset at the best value,
+            we make every step simple, transparent, and rewarding. Our mission is to connect buyers and sellers with
+            trusted, verified, and valuable real estate opportunities — from cozy apartments and luxurious villas to
+            modern commercial spaces. Every listing is handpicked to match your lifestyle, budget, and location
+            preferences.</p>
+          <p>With expert guidance, market insights, and personalized service, we ensure that your property journey is
+            smooth and stress-free. Explore our platform to find the right home or the right buyer — and turn your real
+            estate goals into reality.</p>
+          <a href="#products" class="btn">Explore Our Collection</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- Products Section -->
+<section class="products-section" id="products">
+  <h2>Our Premium Collection</h2>
+  <div class="slider" id="product-slider">
+    <div class="slides-wrapper">
+      {% for product in products %}
+      <div class="product">
+        <a href="{% url 'product_detail' product.id %}">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </a>
+        <div class="product-info">
+          <p class="location"><i class="bi bi-geo-alt-fill text-danger"></i> {{ product.location.name }}</p>
+          <h3>{{ product.name }}</h3>
+          <div class="price">₹{{ product.price }}</div>
+          <div class="product-actions">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-small add-to-cart-btn"
+              data-product-id="{{ product.id }}">
+              Add to Cart
+            </a> <a href="{% url 'product_detail' product.id %}" class="btn btn-small btn-outline">Details</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="slider-prev">&#10094;</button>
+    <button class="slider-next">&#10095;</button>
+  </div>
+</section>
+<script>
+  $(document).ready(function () {
+    $('.add-to-cart').click(function (e) {
+      e.preventDefault();
+      let productId = $(this).data('id');
+      $.get('/cart/add/' + productId + '/', function () {
+        alert('Product added to cart!');
+        // optionally update cart icon count here
+      });
+    });
+  });
+</script>
+{% include 'store/footer.html' %}
+
+{% block extra_scripts %}{% endblock %}

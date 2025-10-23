@@ -1,0 +1,197 @@
+<!-- Advanced Footer -->
+<footer id="contact" class="footer">
+  <div class="footer-container">
+    <!-- About Section -->
+    <div class="footer-section about">
+      <img src="/media/products/logo.webp">
+      <!-- <p>Premium handcrafted candles for your home & special occasions. Eco-friendly and long-lasting.</p> -->
+      
+    </div>
+
+    <!-- Quick Links Section -->
+    <div class="footer-section links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#blog">Blog</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="footer-section contact">
+      <h3>Contact Us</h3>
+      <p><strong>Email:</strong> info@Rooms.com</p>
+      <p><strong>Phone:</strong> +91 12345 67890</p>
+      <p><strong>Address:</strong> 123 Candle Street, Palwal, Haryana</p>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="footer-section newsletter">
+      <h3>Subscribe</h3>
+      <p>Get the latest updates & offers directly in your inbox.</p>
+<form action="{% url 'subscribe' %}" method="post">
+  {% csrf_token %}
+  <input type="email" name="email" placeholder="Your Email" required>
+  <button type="submit">Subscribe</button>
+</form>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 DreamHomes . All Rights Reserved.</p>
+  </div>
+</footer>
+<script>
+  $(document).ready(function () {
+    $('.add-to-cart').click(function (e) {
+      e.preventDefault();
+      let productId = $(this).data('id');
+      $.get('/cart/add/' + productId + '/', function () {
+        alert('Product added to cart!');
+        // optionally update cart icon count here
+      });
+    });
+  });
+</script>
+<!-- Slider JS -->
+<script>
+  const slider = document.querySelector('#product-slider .slides-wrapper');
+  const slideItems = document.querySelectorAll('#product-slider .product');
+  const prevBtn = document.querySelector('.slider-prev');
+  const nextBtn = document.querySelector('.slider-next');
+
+  let index = 0;
+  let slideWidth = 300;
+
+  function showSlide(idx) {
+    slider.style.transform = `translateX(${-idx * (slideWidth + 20)}px)`; // includes margin
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (index < slideItems.length - 3) index++;
+    showSlide(index);
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (index > 0) index--;
+    showSlide(index);
+  });
+
+  window.addEventListener('resize', () => {
+    slideWidth = slideItems[0].offsetWidth;
+    showSlide(index);
+  });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const cityItems = document.querySelectorAll(".popular-cities-ul li, .city-pill");
+    const locationSelect = document.querySelector("select[name='location']");
+    const form = locationSelect.closest("form");
+
+    cityItems.forEach(item => {
+        item.addEventListener("click", function() {
+            const cityId = this.dataset.cityId;
+
+            // Remove previous selection
+            cityItems.forEach(i => i.classList.remove("selected"));
+            this.classList.add("selected");
+
+            // Update select dropdown
+            locationSelect.value = cityId;
+
+            // Submit the form
+            form.submit();
+        });
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const cityCards = document.querySelectorAll(".city-card, .city-pill");
+    const locationSelect = document.querySelector("select[name='location']");
+    const form = locationSelect.closest("form");
+
+    cityCards.forEach(card => {
+        card.addEventListener("click", function() {
+            const cityId = this.dataset.cityId;
+
+            // Highlight selected
+            document.querySelectorAll(".city-card, .city-pill").forEach(c => c.classList.remove("selected"));
+            this.classList.add("selected");
+
+            // Set the select dropdown
+            locationSelect.value = cityId;
+
+            // Submit form to fetch products
+            form.submit();
+        });
+    });
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const popup = document.getElementById('location-popup');
+    const headerLocation = document.getElementById('current-location');
+
+    // Detect Django context variable and localStorage
+    const djangoLocation = "{{ selected_location|default:'' }}";
+    const localStorageLocation = localStorage.getItem('locationSelected');
+
+    // ✅ Show popup only if neither Django nor localStorage has location
+    if (!djangoLocation && !localStorageLocation) {
+        popup.style.display = 'flex';
+    } else {
+        popup.style.display = 'none';
+    }
+
+    // Clicking header opens popup to change location
+    if (headerLocation) {
+        headerLocation.addEventListener('click', function() {
+            popup.style.display = 'flex';
+        });
+    }
+
+    // Clicking a city
+    const cityItems = document.querySelectorAll(".popular-cities-ul li");
+    const locationSelect = document.querySelector("select[name='location']");
+    const form = locationSelect ? locationSelect.closest("form") : null;
+
+    cityItems.forEach(item => {
+        item.addEventListener("click", function() {
+            const cityId = this.dataset.cityId;
+
+            // Remove previous selection
+            cityItems.forEach(i => i.classList.remove("selected"));
+            this.classList.add("selected");
+
+            // Update select dropdown
+            if (locationSelect) locationSelect.value = cityId;
+
+            // Save in localStorage
+            localStorage.setItem('locationSelected', 'true');
+
+            // Submit form to reload page with selected location
+            if (form) form.submit();
+        });
+    });
+
+    // Close popup when clicking outside
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>

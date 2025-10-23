@@ -1,0 +1,178 @@
+
+{% include 'store/header.html' %}
+
+{% block content %}
+<style>
+  /* 🌆 Modern Property Grid Styles */
+ 
+
+  h2 {
+    font-weight: 700;
+    color: #2c3e50;
+  }
+
+  .location-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+section.property {
+    background: #fff;
+    padding: 44px 0px;
+}
+select.form-select {
+    border-radius: 0px;
+    padding: 8px 67px;
+    border: 1px solid #baa360;
+    transition: all 0.3s ease;
+}
+
+  select.form-select:hover {
+    border-color: #0b5ed7;
+    box-shadow: 0 0 8px rgba(13, 110, 253, 0.2);
+  }
+
+  .property-card {
+    position: relative;
+    border: none;
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    background: #fff;
+  }
+
+  .property-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .property-card img {
+    height: 230px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.4s ease;
+  }
+
+  .property-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .property-body {
+    padding: 18px;
+  }
+
+  .property-body h5 {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+  }
+
+  .property-body .price {
+    color: #28a745;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .property-body .location {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+
+  .btn-view, .btn-cart {
+    border-radius: 30px;
+    padding: 6px 15px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-view {
+    background-color: #0d6efd;
+    color: #fff;
+  }
+
+  .btn-view:hover {
+    background-color: #084298;
+  }
+
+  .btn-cart {
+    border-color: #198754;
+    color: #198754;
+  }
+
+  .btn-cart:hover {
+    background-color: #198754;
+    color: #fff;
+  }
+
+  .property-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #ff4757;
+    color: white;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .property h2.text-center.mb-4 {
+    font-size: 69px;
+    color: #baa360;
+    padding-bottom: 18px;
+}
+</style>
+<section class="property">
+<div class="container my-1">
+  <h2 class="text-center mb-4"> {{ selected_location.name|default:"Properties" }}</h2>
+
+  <!-- Location Filter -->
+  <div class="location-filter mb-5">
+    <label for="locationSelect" class="fw-semibold text-secondary me-2">Filter by Location:</label>
+    <select id="locationSelect" class="form-select w-auto" onchange="window.location.href=this.value;">
+      <option value="{% url 'properties_all' %}">All Locations</option>
+      {% for loc in locations %}
+      <option value="{% url 'properties_by_location' loc.id %}" {% if selected_location and selected_location.id == loc.id %}selected{% endif %}>
+        {{ loc.name }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="row g-4">
+    {% for product in products %}
+    <div class="col-lg-4 col-md-6">
+      <div class="product">
+        <a href="{% url 'product_detail' product.id %}">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        </a>
+        <div class="product-info">
+          <p class="location"><i class="bi bi-geo-alt-fill text-danger"></i> {{ product.location.name }}</p>
+          <h3>{{ product.name }}</h3>
+          <div class="price">₹{{ product.price }}</div>
+          <div class="product-actions">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-small add-to-cart-btn"
+              data-product-id="{{ product.id }}">
+              Add to Cart
+            </a> <a href="{% url 'product_detail' product.id %}" class="btn btn-small btn-outline">Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+      <p class="text-muted fs-5">No properties available in this location yet.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+{% endblock %}
+
+{% include 'store/footer.html' %}
+
+
+

@@ -1,0 +1,209 @@
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fffaf0; color: #333; line-height: 1.6; }
+
+    /* Header */
+    header { background: #2c3e50; color: white; padding: 10px 0; position: sticky; top: 0; z-index: 100; }
+    nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; }
+    .logo { font-size: 26px; font-weight: bold; color: #f39c12; }
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav a { color: white; text-decoration: none; font-weight: 500; }
+    nav a:hover { color: #f39c12; }
+    .cart-icon { position: relative; cursor: pointer; }
+    .cart-count { position: absolute; top: -8px; right: -8px; background: #e74c3c; color: white; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; }
+
+    /* Hero Banner */
+    .hero { background: url('/media/products/burning-candle-table-darkness-space-text-funeral-symbol_8038c54e-96a4-4046-b0d5_a97XaOM.jpg') center/cover no-repeat; height: 400px; display: flex; align-items: center; justify-content: center; }
+    .hero-content { text-align: center; background: rgba(0,0,0,0.4); padding: 20px 40px; border-radius: 10px; color: white; }
+    .hero-content h1 { font-size: 48px; margin-bottom: 10px; }
+    .hero-content p { font-size: 20px; margin-bottom: 15px; }
+    .btn { padding: 10px 25px; background: #f39c12; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; text-decoration: none; }
+    .btn:hover { background: #e67e22; }
+
+    /* About Section */
+    .about { max-width: 1200px; margin: 50px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; padding: 0 20px; }
+    .about img { width: 100%; border-radius: 15px; }
+    .about-content h2 { font-size: 36px; margin-bottom: 15px; color: #2c3e50; }
+    .about-content p { font-size: 16px; margin-bottom: 10px; color: #555; }
+
+    /* Products Slider */
+    .products-section { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+    .products-section h2 { text-align: center; font-size: 36px; margin-bottom: 30px; color: #2c3e50; }
+    .slider { overflow: hidden; position: relative; }
+    .slides-wrapper { display: flex; transition: transform 0.5s ease-in-out; }
+    .product { background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 10px; min-width: 280px; overflow: hidden; flex-shrink: 0; }
+    .product img { width: 100%; height: 200px; object-fit: cover; }
+    .product-info { padding: 15px; text-align: center; }
+    .product-info h3 { font-size: 18px; margin-bottom: 5px; color: #2c3e50; }
+    .product-info .price { font-weight: bold; font-size: 20px; color: #f39c12; margin-bottom: 10px; }
+    .product-actions { display: flex; justify-content: center; gap: 10px; }
+    .product-actions .btn-small { padding: 8px 15px; font-size: 14px; border-radius: 5px; }
+    .btn-outline { background: transparent; border: 1px solid #f39c12; color: #f39c12; }
+    .btn-outline:hover { background: #f39c12; color: white; }
+
+    /* Slider Arrows */
+    .slider-prev, .slider-next { position: absolute; top: 50%; transform: translateY(-50%); background: #f39c12; border: none; padding: 10px; cursor: pointer; z-index: 10; border-radius: 50%; }
+    .slider-prev { left: 0; }
+    .slider-next { right: 0; }
+
+    /* Footer */
+    footer { background: #2c3e50; color: white; padding: 40px 20px; }
+    footer h3 { color: #f39c12; margin-bottom: 15px; }
+    footer ul { list-style: none; }
+    footer ul li { margin-bottom: 8px; }
+    footer a { color: white; text-decoration: none; }
+    footer a:hover { color: #f39c12; }
+    .footer-bottom { text-align: center; margin-top: 20px; font-size: 14px; color: #ccc; }
+
+    /* Responsive */
+    @media (max-width: 768px) { .about { grid-template-columns: 1fr; } }
+
+
+    .popular-cities-ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.popular-cities-ul li {
+    cursor: pointer;
+    transition: all 0.2s;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 31px #ddd;
+    padding: 11px;
+    border-radius: 13px;
+    border: 1px solid #ccc;
+    color: #222;
+    font-size: 18px;
+}
+.popular-cities-ul li.selected {
+    background-color: #e0f0ff;
+    border-color: #007bff;
+}
+
+.city-icon {
+    width: 63px;
+    height: auto;
+    margin-right: 6px;
+    object-fit: contain;
+    background: #ddd;
+    padding: 13px;
+    border-radius: 55px;
+}
+
+/* cart */
+
+.cart-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.cart-section h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.cart-table th, .cart-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.cart-product {
+    display: flex;
+    align-items: center;
+}
+
+.cart-product img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.btn-update, .btn-remove, .btn-checkout {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-update {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-remove {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-checkout {
+    background-color: #28a745;
+    color: #fff;
+    float: right;
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    text-align: center;
+    max-width: 600px;
+}
+.popup-content h2 {
+    font-size: 26px;
+    color: #000;
+    margin-bottom: 22px;
+    text-align: left;
+}
+.popup-content h3 {
+    color: #1c1c1c;
+    text-align: left;
+    line-height: 1.5em;
+    padding-bottom: 23px;
+    margin-top: 47px;
+    font-size: 23px;
+}
+.popup-content form select {
+    width: 80%;
+    padding: 11px 3px;
+    color: #777;
+    border: 1px solid #7777774f !important;
+    border-radius: 4px;
+    font-size: 16px;
+}
+.popup-content form {
+    display: flex;
+    gap: 12px;
+}
+.popup-content form button {
+    font-size: 18px;
+    background: #2b6a9b;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 20%;
+}

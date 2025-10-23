@@ -1,0 +1,102 @@
+{% include 'store/header.html' %}
+<style>
+    .cart-container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #343a40 !important;
+  color: #fff;
+  font-weight: 600;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.alert-warning {
+  font-size: 1.1rem;
+  border-radius: 8px;
+}
+
+</style>
+{% block extra_scripts %}
+<div class="container my-5 cart-container">
+  <h2 class="text-center mb-4">🛒 Your Shopping Cart</h2>
+
+  {% if cart|length == 0 %}
+    <div class="alert alert-warning text-center py-4">
+      Your cart is empty. <a href="/" class="btn btn-sm btn-primary ms-2">Continue Shopping</a>
+    </div>
+  {% else %}
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle text-center shadow-sm">
+        <thead class="table-dark">
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th style="width: 150px;">Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+          <tr>
+            <td class="text-start">
+              <strong>{{ item.product.name }}</strong>
+            </td>
+            <td>₹{{ item.price }}</td>
+            <td>
+              <form action="{% url 'update_cart' item.product.id %}" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control form-control-sm text-center" style="width: 70px;">
+                <button type="submit" class="btn btn-sm btn-outline-primary">Update</button>
+              </form>
+            </td>
+            <td><strong>₹{{ item.total_price }}</strong></td>
+            <td>
+              <a href="{% url 'remove_from_cart' item.product.id %}" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash"></i> Remove
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-end mt-4">
+<h4><strong>Total: ₹{{ cart.get_total_price|floatformat:2 }}</strong></h4>
+      <a href="/" class="btn btn-outline-secondary mt-2">← Continue Shopping</a>
+<a href="{% url 'checkout' %}" class="btn btn-success mt-2 ms-2">Proceed to Checkout</a>
+    </div>
+  {% endif %}
+</div>
+
+
+{% endblock %}

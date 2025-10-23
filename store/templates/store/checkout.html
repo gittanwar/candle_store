@@ -1,0 +1,61 @@
+{% include 'store/header.html' %}
+<section class="checkout">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+      <h2>Checkout</h2>
+      </div>
+      <div class="col-md-12">
+{% if error %}
+      <p style="color: red">{{ error }}</p>
+      {% endif %}
+      <div class="formchout">
+        <h3>Checkout</h3>
+        <form method="post">
+          {% csrf_token %}
+          <p><label>Name:</label> <input type="text" name="name" required /></p>
+          <p><label>Email:</label><input type="email" name="email" required /></p>
+          <p><label>Phone</label> <input type="text" name="phone" required /></p>
+          <p><label>Address</label><textarea name="address" required></textarea></p>
+
+          <h3>Your Cart</h3>
+          <table class="table table-bordered cart-table">
+  <thead class="table-light">
+    <tr>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price (₹)</th>
+      <th>Total (₹)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart %}
+
+    <tr>
+      <td>{{ item.product.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>₹{{ item.price }}</td>
+      <td>₹{{ item.total_price }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4" class="text-center text-muted">Your cart is empty.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+          <p><strong>Total: ₹{{ cart.get_total_price }}</strong></p>
+
+          <button type="submit">Place Order</button>
+        </form>
+      </div>
+      </div>
+
+      
+    </div>
+  </div>
+</section>
+
+{% include 'store/footer.html' %} {% block extra_scripts %}{% endblock %}
