@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-tv#5efque!!$7t@*yq!t*=34py22&th@sf+qoyb&))mnv@yldx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["candle-store-4.onrender.com", "127.0.0.1", "localhost"]
 
 
 # Application definition
